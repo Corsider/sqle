@@ -215,7 +215,26 @@ func constructor(size, offset uintptr, next ctorFunc) ctorFunc {
 }
 
 func scannable(typ reflect.Type) bool {
-	return typ == timeReflectType || typ.Implements(scannerReflectType)
+	/*
+		var a **sql.NullFloat64
+		println(scannable(reflect.TypeOf(a)))  ->  true
+		var b *sql.NullFloat64
+		println(scannable(reflect.TypeOf(b)))  ->  true
+		var c sql.NullFloat64
+		println(scannable(reflect.TypeOf(c)))  ->  true
+	*/
+	for typ.Kind() == reflect.Ptr { // going by ptr's
+		typ = typ.Elem()
+	}
+
+	// checking type
+	if typ == timeReflectType || typ.Implements(scannerReflectType) {
+		return true
+	}
+
+	// checking ptr
+	ptrType := reflect.PtrTo(typ)
+	return ptrType.Implements(scannerReflectType)
 }
 
 const (
