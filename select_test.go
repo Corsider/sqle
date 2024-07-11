@@ -18,7 +18,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/lazada/sqle/testdata"
+	"sqle/testdata"
 )
 
 func selectStruct(b *testing.B, limit int) {

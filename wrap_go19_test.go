@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:build go1.9
 // +build go1.9
 
 package sqle
@@ -20,7 +21,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/lazada/sqle/testdata"
+	"sqle/testdata"
 )
 
 func TestWrap_Conn(t *testing.T) {

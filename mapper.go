@@ -19,11 +19,10 @@ import (
 	"database/sql/driver"
 	"errors"
 	"reflect"
+	"sqle/embed"
 	"sync"
 	"time"
 	"unsafe"
-
-	"github.com/lazada/sqle/embed"
 )
 
 type ctorFunc func(unsafe.Pointer) unsafe.Pointer
@@ -149,7 +148,7 @@ func (m *Mapper) inspect(parent *structMap, offset uintptr, typ reflect.Type) *s
 		if fieldtyp = field.Type; fieldtyp.Kind() == reflect.Ptr {
 			fieldtyp, isptr = fieldtyp.Elem(), ptrMask
 		}
-		if fieldtyp.Kind() == reflect.Struct && !scannable(fieldtyp) {
+		if fieldtyp.Kind() == reflect.Struct && !scannable(fieldtyp) && !scannable(reflect.PointerTo(fieldtyp)) {
 			if s = m.inspect(smap, field.Offset|isptr, fieldtyp); s != nil {
 				smap.aliases = append(smap.aliases, s.aliases...)
 				smap.fields = append(smap.fields, s.fields...)
@@ -215,26 +214,7 @@ func constructor(size, offset uintptr, next ctorFunc) ctorFunc {
 }
 
 func scannable(typ reflect.Type) bool {
-	/*
-		var a **sql.NullFloat64
-		println(scannable(reflect.TypeOf(a)))  ->  true
-		var b *sql.NullFloat64
-		println(scannable(reflect.TypeOf(b)))  ->  true
-		var c sql.NullFloat64
-		println(scannable(reflect.TypeOf(c)))  ->  true
-	*/
-	for typ.Kind() == reflect.Ptr { // going by ptr's
-		typ = typ.Elem()
-	}
-
-	// checking type
-	if typ == timeReflectType || typ.Implements(scannerReflectType) {
-		return true
-	}
-
-	// checking ptr
-	ptrType := reflect.PtrTo(typ)
-	return ptrType.Implements(scannerReflectType)
+	return typ == timeReflectType || typ.Implements(scannerReflectType)
 }
 
 const (
