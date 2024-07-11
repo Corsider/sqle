@@ -18,7 +18,7 @@ import (
 	"testing"
 	"time"
 
-	"sqle/testdata"
+	"github.com/lazada/sqle/testdata"
 )
 
 func TestRows_ScanMap(t *testing.T) {

@@ -21,7 +21,7 @@ import (
 	"os"
 	"sync/atomic"
 
-	"sqle/testdata"
+	"github.com/lazada/sqle/testdata"
 )
 
 var (

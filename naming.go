@@ -18,7 +18,7 @@ import (
 	"strings"
 	"sync"
 
-	"sqle/strcase"
+	"github.com/lazada/sqle/strcase"
 )
 
 type NamingConvention interface {

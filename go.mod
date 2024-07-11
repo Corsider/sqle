@@ -1,4 +1,4 @@
-module sqle
+module github.com/lazada/sqle
 
 go 1.22.0
 

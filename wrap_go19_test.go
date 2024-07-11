@@ -21,7 +21,7 @@ import (
 	"context"
 	"testing"
 
-	"sqle/testdata"
+	"github.com/lazada/sqle/testdata"
 )
 
 func TestWrap_Conn(t *testing.T) {
