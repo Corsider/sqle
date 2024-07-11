@@ -1,5 +1,0 @@
-module github.com/lazada/sqle
-
-go 1.8.0
-
-require github.com/mattn/go-sqlite3 v1.14.22
